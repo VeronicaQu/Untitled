@@ -9,7 +9,7 @@ public class Ingredient : MonoBehaviour
     [SerializeField] private Sprite[] imageStates;
     private int myImageState = 0; //initial state is 0
     [SerializeField] private int motionsToStateChange; //needed number of motions to change state
-    [SerializeField] private List<Motion> motionUIs; 
+    [SerializeField] private List<Motion> motionUis; 
     private int myMotionsLeft; //number of motions left until state change -> resets to neededMotions
 
     public int motionsLeft {get{return myMotionsLeft;}}
@@ -18,5 +18,10 @@ public class Ingredient : MonoBehaviour
     // ==============   methods   ==============
     public void ChangeState(){
         myImageState ++;
+    }
+
+    public bool AtEndState(){
+        if (myImageState == imageStates.Length-1) return true;
+        return false;
     }
 }
