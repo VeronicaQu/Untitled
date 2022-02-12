@@ -3,23 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Timer
+public class Timer: MonoBehaviour
 {
-    float time;
+    private float time;
     UnityAction endAction;
+    IEnumerator myCoroutine;
 
-    public Timer (float newTime, UnityAction newAction){
-        time = newTime;
+    public void init (float newTime, UnityAction newAction){
         endAction = newAction;
-    }
-    public void SetTime(float newTime){
         time = newTime;
     }
-    public float GetTime(){
-        return time;
+
+    public void AddToTimer(float t){
+        time += t;
     }
 
-    public void EndTimer(){//what to do when the timer stops?
+    public void StartTimer(){
+        myCoroutine = DecrementTimer();
+        StartCoroutine(myCoroutine);
+    }
+
+    private IEnumerator DecrementTimer(){ //coroutine for timer
+        while (time > 0){
+            time -= 1;
+            yield return new WaitForSeconds(1);
+        }
         endAction();
+        Destroy(this);
     }
 }

@@ -69,8 +69,8 @@ public class Map : MonoBehaviour, IPointerClickHandler
                             + (v? "Are you sure you want to use ": "Come back when you have ") + p 
                             + (v? (" coins to relocate? You will have " + (econ.playerAccount - p) + " coins left."): " coins.");
         string popUpChoiceText = v? "Confirm" : "Got it!";
-        if (gm.popUpMessageBase != null){
-            myMessage = Instantiate(gm.popUpMessageBase).GetComponent<PopUpMessage>(); //instantiate popup message
+        if (gm.popUpMessagePrefab != null){
+            myMessage = Instantiate(gm.popUpMessagePrefab).GetComponent<PopUpMessage>(); //instantiate popup message
             myMessage.transform.SetParent(gm.gameCanvas.transform, false);
             if (myMessage != null){
                 myMessage.Init(popUpText, popUpChoiceText, HandlePopUpResult);

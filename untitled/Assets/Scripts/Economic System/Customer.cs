@@ -20,7 +20,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private float myNeutralWaitTime;
     [SerializeField] private float myAngryWaitTime;
     private Timer waitTimer;
-    TimeManager tm;
+    GameManager gm;
 
     //econ vars
     [SerializeField] private float myTipPercent;
@@ -31,8 +31,9 @@ public class Customer : MonoBehaviour
     // ==============   methods   ==============
     private void Awake(){
         econ = FindObjectOfType<Economy>();
-        tm = FindObjectOfType<TimeManager>();
-        waitTimer = new Timer(myHappyWaitTime, EndTimerHandler);
+        gm = FindObjectOfType<GameManager>();
+        waitTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
+        waitTimer.init(myHappyWaitTime, EndTimerHandler);
     }
 
     public void Init(){
@@ -77,7 +78,7 @@ public class Customer : MonoBehaviour
     }
 
     private void StartTimer(){
-        tm.AddTimer(waitTimer);
+        waitTimer.StartTimer();
     }
 
     public void EndTimerHandler(){

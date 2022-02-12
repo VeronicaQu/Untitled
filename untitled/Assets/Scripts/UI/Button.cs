@@ -20,7 +20,6 @@ public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     // ==============   methods   ==============
     void Start(){
-        Debug.Log(this.gameObject.name);
         myScale = this.transform.localScale;
     }
     //indicate hovered location to player

@@ -5,13 +5,18 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // ==============   variables   ==============
-    [SerializeField] private GameObject popUpMessagePrefab;
+    [SerializeField] private GameObject myTimerPrefab;
+    public GameObject timerPrefab{get{return myTimerPrefab;}}
+
+    [SerializeField] private GameObject myPopUpMessagePrefab;
+    [SerializeField] public GameObject popUpMessagePrefab{get{return myPopUpMessagePrefab;}}
+
     [SerializeField] private GameObject myGameCanvas;
-    public GameObject gameCanvas{get{return myGameCanvas;}}
-    public GameObject popUpMessageBase{get{return popUpMessagePrefab;}}
+    [SerializeField] public GameObject gameCanvas{get{return myGameCanvas;}}
 
 
     // ==============   methods   ==============
+    
     void Start()
     {
         
