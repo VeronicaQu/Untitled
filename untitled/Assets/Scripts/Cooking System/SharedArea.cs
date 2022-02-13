@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class SharedArea: MonoBehaviour
 {
+    public enum AreaType {None, CuttingBoard}
     [SerializeField] private bool ingredientsOnly;
+    [SerializeField] AreaType myType = AreaType.None;
+    public AreaType type {get {return myType;}}
+
     private GameObject myItem;
 
     private bool freeArea = true;
     private Player player;
 
+    // ==============   functions   ==============
     private void Awake(){
         player = FindObjectOfType<Player>();
     }
-    
 
     public void OnMouseDown(){
         Debug.Log(this.name);
+        
         if(!player.handFree){
             if (freeArea) PlaceObjectOnShared();
         }
@@ -25,28 +30,35 @@ public class SharedArea: MonoBehaviour
         }
     }
 
-    public void OnMouseOver(){
-        //turn green if free area; else red
-    }
+    // public void OnMouseOver(){
+    //     //turn green if free area; else red
+    // }
 
-    public void OnMouseExit(){
-        //turn off alpha
-    }
+    // public void OnMouseExit(){
+    //     //turn off alpha
+    // }
 
     //shared board
     private void PlaceObjectOnShared(){
         if (ingredientsOnly){
             myItem = player.DropItem("ingredient");
             if (myItem == null) return;
-            myItem.GetComponent<Ingredient>().area = this;
+            
+            Ingredient i = myItem.GetComponent<Ingredient>();
+            if (myType == AreaType.CuttingBoard) i.ActivateLines();
+            i.area = this;
+            i.ResetVars();
         }
         else{
             myItem = player.DropItem("tool");
             if (myItem == null) return;
-            myItem.GetComponent<Tool>().area = this;
+            
+            Tool t = myItem.GetComponent<Tool>();
+            t.ResetVars();
+            t.area = this;
         }
         freeArea = false;
-        myItem.transform.position = this.transform.position;
+        myItem.transform.position = this.transform.position - new Vector3(0,0,1);
     }
 
     public void HandlePickUp(){
