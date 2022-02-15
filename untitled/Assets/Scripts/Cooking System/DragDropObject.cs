@@ -26,6 +26,9 @@ public class DragDropObject : MonoBehaviour
     private Ingredient myIngredient;
     [SerializeField] private int maxState;
 
+    private SharedArea myArea;
+    public SharedArea area{set{myArea = value;}}
+
     // ==============   methods   ==============
     private void Awake(){
         player = FindObjectOfType<Player>();
@@ -40,12 +43,16 @@ public class DragDropObject : MonoBehaviour
                 if (!player.handFree) player.AddToCurrentOrder();
                 else{
                     //pick up base
-                    player.HandleBase();
+                    if (myArea != null) myArea.HandlePickUp();
+                    player.PickUpItem(this.gameObject);
                 }
             break;
 
             case Type.Serve:
-                if (player.holdingBase) cm.ServeCustomer(player.order);
+                if (player.holdingBase){
+                    Debug.Log("serving");
+                    cm.ServeCustomer(player.order);
+                }
             break;
 
             //tools
@@ -78,7 +85,7 @@ public class DragDropObject : MonoBehaviour
         //start timer
         myIngredient.gameObject.SetActive(false);
         myTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
-        myTimer.init(myCookingTime, HandleFinishedCooking);
+        myTimer.Init(myCookingTime, HandleFinishedCooking);
         myTimer.StartTimer();
 
         //move ingredient into place

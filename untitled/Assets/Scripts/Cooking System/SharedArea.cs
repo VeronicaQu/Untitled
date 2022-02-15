@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SharedArea: MonoBehaviour
 {
-    public enum AreaType {None, CuttingBoard}
+    public enum AreaType {None, CuttingBoard, Base}
     [SerializeField] private bool ingredientsOnly;
     [SerializeField] AreaType myType = AreaType.None;
     public AreaType type {get {return myType;}}
@@ -45,9 +45,13 @@ public class SharedArea: MonoBehaviour
             if (myItem == null) return;
             
             Ingredient i = myItem.GetComponent<Ingredient>();
-            if (myType == AreaType.CuttingBoard) i.ActivateLines();
-            i.area = this;
             i.ResetVars();
+            i.area = this;
+        }
+        else if (myType == AreaType.Base){
+            myItem = player.DropItem("base");
+            if (myItem == null) return;
+            myItem.GetComponent<DragDropObject>().area = this;
         }
         else{
             myItem = player.DropItem("tool");

@@ -6,9 +6,11 @@ using Cinemachine;
 public class CameraManager : MonoBehaviour
 {
     // ==============   variables   ==============
+    [SerializeField] private GameObject customerView;
+    private GameObject cam;
     [SerializeField] private List <CinemachineVirtualCamera> virtualCams;
+    [SerializeField] private List <CinemachineVirtualCamera> virtualUpCams;
     public int camIndex {get; private set;}
-    //public int index{get{return camIndex;}}
     public int maxCamIndex {get{return virtualCams.Count;}}
     [SerializeField] private CameraButton leftButton;
     [SerializeField] private CameraButton rightButton;
@@ -17,6 +19,7 @@ public class CameraManager : MonoBehaviour
     // ==============   methods   ==============
     void Start(){
         p = FindObjectOfType<Player>();
+        cam = FindObjectOfType<Camera>().gameObject;
         camIndex = 1;
         SwapToCam(camIndex);
         
@@ -34,15 +37,42 @@ public class CameraManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.RightArrow)){
             SwapToCam(camIndex+1 < maxCamIndex ? camIndex+1: camIndex);
         }
+        else if (Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.UpArrow)){
+            SwapUpDownCam();
+        }
+        else if (Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.DownArrow)){
+            SwapUpDownCam();
+        }
     }
 
     public void SwapToCam(int n){ //current, new
-        if (!p.handFree || camIndex == n) return;
+        if (!p.handFree || camIndex == n || virtualCams[camIndex].Priority == 10) return;
+
+        //swap the camera
         int c = camIndex;
         virtualCams[n].Priority = 11;
         virtualCams[c].Priority = 10;
         camIndex = n;
+
+        //move the customer view to be above the new cam;
+        Vector3 newCustomerViewPos = new Vector3 (virtualCams[camIndex].transform.position.x, customerView.transform.position.y, 0);
+        customerView.transform.position = newCustomerViewPos;
+
         ShowButtons();
+    }
+    public void SwapUpDownCam(){
+        if (!p.handFree) return; //this would only be the case when the player is on bottom cam
+        if (virtualCams[camIndex].Priority == 11){ //swap up to customer cam
+            HideButtons();
+            virtualUpCams[camIndex].Priority = 11;
+            virtualCams[camIndex].Priority = 10;
+        }
+        else{//swap down to game cam
+            virtualCams[camIndex].Priority = 11;
+            virtualUpCams[camIndex].Priority = 10;
+            ShowButtons();
+        }
+
     }
 
     public void HideButtons(){

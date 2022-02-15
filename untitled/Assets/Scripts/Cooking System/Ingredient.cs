@@ -7,7 +7,8 @@ public class Ingredient : MonoBehaviour
     // ==============   variables   ==============
     private Player player;
 
-    [SerializeField] private string name;
+    [SerializeField] private string myName;
+    public new string name {get{return myName;}}
     [SerializeField] private Sprite[] imageStates;
     private int myImageState = 0; //initial state is 0
     public int state{get{return myImageState;}}
@@ -55,6 +56,7 @@ public class Ingredient : MonoBehaviour
         if (!hovered && myArea !=null && myArea.type == SharedArea.AreaType.CuttingBoard && !player.handFree){
             hovered = true;
             player.ValidateToolLines(this);
+            if (myArea.type == SharedArea.AreaType.CuttingBoard) ActivateLines();
         }
     }
 
@@ -102,6 +104,7 @@ public class Ingredient : MonoBehaviour
     }
 
     public void ResetVars(){ //reset some variables: tool lines, 
+        InactivateLines();
         InvalidateToolLines();
     }
 }

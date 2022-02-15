@@ -5,7 +5,8 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     private Dictionary <string, float> priceReference; 
-    private Customer firstCustomer;
+    [SerializeField] private Customer firstCustomer;
+    private Customer selectedCustomer;
     private Generator g;
     // Start is called before the first frame update
     void Awake()
@@ -24,7 +25,10 @@ public class CustomerManager : MonoBehaviour
         g.customers = next.customers;
     }
 
-    public void ServeCustomer(List<Ingredient> order){
-
+    public void ServeCustomer(List<string> order){
+        if (selectedCustomer == null) {
+            if (firstCustomer !=null) firstCustomer.CheckOrder(order);
+            }
+        else selectedCustomer.CheckOrder(order);
     }
 }

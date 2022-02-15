@@ -10,6 +10,9 @@ public class ToolLine: MonoBehaviour
 
     private bool iCanClick;
     public bool canClick {set{iCanClick = value;}}
+
+    [SerializeField] private float minPercentOfDist;
+    private Collider2D myCollider;
     private float minDistance;
     private Vector3 initialPos;
 
@@ -17,6 +20,9 @@ public class ToolLine: MonoBehaviour
     private void Awake(){
         player = FindObjectOfType<Player>();
         mySpriteRend = GetComponent<SpriteRenderer>();
+        myCollider = GetComponent<Collider2D>();
+
+        minDistance = myCollider.bounds.size.y * minPercentOfDist;
     }
 
     private void OnMouseEnter(){

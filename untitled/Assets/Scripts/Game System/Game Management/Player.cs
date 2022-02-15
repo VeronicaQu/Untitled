@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     // ==============   variables   ==============
+    public Text tempOrderText;
     private bool isHoldingBase;
     public bool holdingBase{get{return isHoldingBase;}}
     
@@ -18,8 +20,8 @@ public class Player : MonoBehaviour
     private bool isHandFree = true;
     public bool handFree {get {return isHandFree;}}
 
-    private List <Ingredient> currentOrder = new List <Ingredient>();
-    public List<Ingredient> order {get {return currentOrder;}}
+    [SerializeField] private List <string> currentOrder = new List <string>();
+    public List<string> order {get {return currentOrder;}}
 
     CameraManager cam;
     Vector3 mousePos;
@@ -44,8 +46,11 @@ public class Player : MonoBehaviour
         if (item.GetComponent<Ingredient>()){
             heldIngredient = item.GetComponent<Ingredient>();
         }
-        else{
+        else if(item.GetComponent<Tool>()){
             heldTool = item.GetComponent<Tool>();
+        }
+        else {
+            HandleBase();
         }
     }
 
@@ -61,6 +66,10 @@ public class Player : MonoBehaviour
             heldTool = null;
             heldItem = null;
         }
+        else if (type == "base"){
+            held = heldItem;
+            heldItem = null;
+        }
 
         if (heldItem == null) HandleNoItems(); //if no item is being held
         if (held != null) held.GetComponent<Collider2D>().enabled = true; //enable collider
@@ -69,6 +78,10 @@ public class Player : MonoBehaviour
     }
 
     private void HandleNoItems(){
+        heldTool = null;
+        heldIngredient = null;
+        heldItem = null;
+        
         isHandFree = true;
         cam.ShowButtons();
     }
@@ -79,7 +92,16 @@ public class Player : MonoBehaviour
     }
 
     public void AddToCurrentOrder(){ //add held ingredient to the order
-        if (heldIngredient!= null && heldIngredient.AtEndState()) currentOrder.Add(heldIngredient);
+        if (heldIngredient!= null && heldIngredient.AtEndState()){
+            currentOrder.Add(heldIngredient.name);
+            UpdateOrderUI(heldIngredient.name);
+            Destroy(heldIngredient.gameObject);
+            HandleNoItems();
+        }
+    }
+
+    private void UpdateOrderUI(string name){
+        tempOrderText.text = tempOrderText.text + "\n" + name;
     }
 
     public void HandleBase(){ //pick up or drop the base object if the player is holding 
