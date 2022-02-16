@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Clickable
   layers:
   - Default
   - TransparentFX
@@ -41,6 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
+  - name: Background
+    uniqueID: 1571072671
+    locked: 0
+  - name: Game Back
+    uniqueID: 908346985
+    locked: 0
+  - name: Game Front
+    uniqueID: 3092957133
+    locked: 0
+  - name: Overlay
     uniqueID: 1556189137
     locked: 0

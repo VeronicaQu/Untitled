@@ -8,7 +8,7 @@ public class Map : MonoBehaviour, IPointerClickHandler
 {
     // ==============   variables   ==============
     private GameManager gm;
-    private GameObject map;
+    [SerializeField] private GameObject map;
     [SerializeField] private Location currLocation; //debug
     public Location location {get{return currLocation;}}
     [SerializeField] private Location nextLocation; //debug
@@ -24,7 +24,6 @@ public class Map : MonoBehaviour, IPointerClickHandler
     private void Awake(){
         gm = FindObjectOfType<GameManager>();
         econ = FindObjectOfType<Economy>();
-        map = transform.GetChild(0).gameObject;
     }
 
     //go to the location the player wants
@@ -46,7 +45,7 @@ public class Map : MonoBehaviour, IPointerClickHandler
     private void UpdateMapUI(){
         //change scale
         if (currLocation != null) currLocation.ResetScale();
-        if (nextLocation != null) nextLocation.ChangeScale(new Vector3(0.5f,0.5f, 0.5f));
+        if (nextLocation != null) nextLocation.ChangeScale(new Vector3(0.5f, 0.5f, 0.5f));
     }
 
     //check if the player can relocate, and notify the player of the validation results
@@ -70,8 +69,8 @@ public class Map : MonoBehaviour, IPointerClickHandler
                             + (v? "Are you sure you want to use ": "Come back when you have ") + p 
                             + (v? (" coins to relocate? You will have " + (econ.playerAccount - p) + " coins left."): " coins.");
         string popUpChoiceText = v? "Confirm" : "Got it!";
-        if (gm.popUpMessageBase != null){
-            myMessage = Instantiate(gm.popUpMessageBase).GetComponent<PopUpMessage>(); //instantiate popup message
+        if (gm.popUpMessagePrefab != null){
+            myMessage = Instantiate(gm.popUpMessagePrefab).GetComponent<PopUpMessage>(); //instantiate popup message
             myMessage.transform.SetParent(gm.gameCanvas.transform, false);
             if (myMessage != null){
                 myMessage.Init(popUpText, popUpChoiceText, HandlePopUpResult);
@@ -94,6 +93,6 @@ public class Map : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData){
-        OpenOrCloseMap();
+            OpenOrCloseMap();
     }
 }

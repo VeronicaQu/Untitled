@@ -11,6 +11,7 @@ public class UIAlpha : MonoBehaviour
     private void Awake(){
         i = GetComponent<Image>();
     }
+    
     public void setAlpha(float n){
         Color colour = i.color;
         colour.a = n;

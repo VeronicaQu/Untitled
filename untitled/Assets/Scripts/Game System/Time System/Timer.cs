@@ -2,24 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class Timer
+public class Timer: MonoBehaviour
 {
-    float time;
+    private float time;
     UnityAction endAction;
+    IEnumerator myCoroutine;
+    Text myText;
 
-    public Timer (float newTime, UnityAction newAction){
-        time = newTime;
+    public void Init (float newTime, UnityAction newAction){
         endAction = newAction;
-    }
-    public void SetTime(float newTime){
         time = newTime;
     }
-    public float GetTime(){
-        return time;
+    public void Init (float newTime, UnityAction newAction, Text text){
+        endAction = newAction;
+        time = newTime;
+        myText = text;
     }
 
-    public void EndTimer(){//what to do when the timer stops?
+    public void AddToTimer(float t){
+        time += t;
+    }
+
+    public void StartTimer(){
+        myCoroutine = DecrementTimer();
+        StartCoroutine(myCoroutine);
+    }
+
+    private IEnumerator DecrementTimer(){ //coroutine for timer
+        while (time > 0){
+            if (myText !=null) myText.text = ""+time;
+            time -= 1;
+            yield return new WaitForSeconds(1);
+        }
+        if (myText !=null) myText.text = "" +time;
         endAction();
+        Destroy(this);
     }
 }
