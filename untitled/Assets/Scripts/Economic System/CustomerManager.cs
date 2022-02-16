@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
-    private Dictionary <string, float> priceReference; 
+    // ==============   variables   ==============
     [SerializeField] private Customer firstCustomer;
     private Customer selectedCustomer;
     private Generator g;
-    // Start is called before the first frame update
-    void Awake()
+    
+    // ==============   methods   ==============
+    void Start()
     {
         EventManager ev = FindObjectOfType<EventManager>();
         ev.OnLocationChange += UpdateOnLocationChange;
@@ -17,10 +18,8 @@ public class CustomerManager : MonoBehaviour
     }
 
     private void UpdateOnLocationChange(Location current, Location next){
-        //current.customerProfiles = customerReference;
-        priceReference = next.priceReference;
-        
-        //update the gernerator
+        //update the generator
+        g.baseIngredients = next.baseIngredients;
         g.ingredients = next.ingredients;
         g.customers = next.customers;
     }

@@ -7,6 +7,8 @@ public class Location : Button, IPointerClickHandler
 {
     // ==============   variables   ==============
     //location variations
+    private List <Ingredient> baseIngredientPrefabs;
+    public List <Ingredient> baseIngredients {get{return baseIngredientPrefabs;}}
     [SerializeField] private List <Ingredient> myIngredientPrefabs;
     public List<Ingredient> ingredients {get{return myIngredientPrefabs;}}
     private List <Customer> customerPrefabs;
@@ -21,8 +23,6 @@ public class Location : Button, IPointerClickHandler
     private Vector3 myHoverScale = new Vector3(0.3f, 0.3f, 0.3f);
     
     //econ vars
-    [SerializeField] private Dictionary<string, float> myPriceReference;
-    public Dictionary<string, float> priceReference {get{return myPriceReference;}}
     [SerializeField] private float myPrice;
     public float relocationPrice{get{return myPrice;}}
     

@@ -14,5 +14,7 @@ public class CameraButton : Button, IPointerClickHandler
             cam.SwapToCam(cam.camIndex-1 >=0 ? cam.camIndex-1: cam.camIndex);
         if (gameObject.name == "right")
             cam.SwapToCam(cam.camIndex+1 < cam.maxCamIndex ? cam.camIndex+1: cam.camIndex);
+        if (gameObject.name == "up" || gameObject.name == "down")
+            cam.SwapUpDownCam();
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DragDropObject : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class DragDropObject : MonoBehaviour
     [SerializeField] private float myCookingTime;
     private Ingredient myIngredient;
     [SerializeField] private int maxState;
+    [SerializeField] private Text cookerText;
 
     private SharedArea myArea;
     public SharedArea area{set{myArea = value;}}
@@ -37,7 +39,7 @@ public class DragDropObject : MonoBehaviour
     }
 
     public void OnMouseDown(){
-        Debug.Log(this.name);
+        //Debug.Log(this.name);
         switch (myType){
             case Type.Base:
                 if (!player.handFree) player.AddToCurrentOrder();
@@ -50,8 +52,9 @@ public class DragDropObject : MonoBehaviour
 
             case Type.Serve:
                 if (player.holdingBase){
-                    Debug.Log("serving");
+                    //Debug.Log("serving");
                     cm.ServeCustomer(player.order);
+                    player.ClearOrder();
                 }
             break;
 
@@ -85,7 +88,7 @@ public class DragDropObject : MonoBehaviour
         //start timer
         myIngredient.gameObject.SetActive(false);
         myTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
-        myTimer.Init(myCookingTime, HandleFinishedCooking);
+        myTimer.Init(myCookingTime, HandleFinishedCooking, cookerText);
         myTimer.StartTimer();
 
         //move ingredient into place

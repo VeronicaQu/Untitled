@@ -21,7 +21,7 @@ public class Tool : MonoBehaviour
     }
     //pick up item
     private void OnMouseDown(){
-        Debug.Log(this.gameObject.name);
+        //Debug.Log(this.gameObject.name);
         
         if (!player.handFree) return;
         if (myArea != null) myArea.HandlePickUp();

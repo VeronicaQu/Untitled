@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Customer : MonoBehaviour
 {
     // ==============   variables   ==============
+    [SerializeField] private Animator myCustomerAnim; 
     //mood vars
     public enum Mood {Angry, Neutral, Happy}
     private Mood myMood = Mood.Happy;
@@ -12,8 +14,11 @@ public class Customer : MonoBehaviour
     [SerializeField] private int myLeniency;
     
     //order vars
-    [SerializeField] private List<string> myOrder;
+    [SerializeField] private List<Ingredient> tempIng; //FIX: DELETE
+    [SerializeField] private List<string> myOrder = new List<string>();
     [SerializeField] private float myOrderPrice;
+    [SerializeField] private Image[] orderUi;
+    private int orderUiIndex;
 
     //timer vars
     [SerializeField] private float myHappyWaitTime;
@@ -25,19 +30,31 @@ public class Customer : MonoBehaviour
     //econ vars
     [SerializeField] private float myTipPercent;
     [SerializeField] private float myGenerousTipPercent;
-    private Economy econ;
+    [SerializeField] private Economy econ;
 
 
     // ==============   methods   ==============
-    private void Awake(){
+    public void Awake(){
         econ = FindObjectOfType<Economy>();
         gm = FindObjectOfType<GameManager>();
+        
         waitTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
         waitTimer.Init(myHappyWaitTime, EndTimerHandler);
+        
+        //FIX: DELETE
+        Init();
+        foreach(Ingredient i in tempIng){
+            AddToOrder(i.initialSprite, i.name, i.price);
+        }
+
+        //ensure inactive
+        this.gameObject.SetActive(false);
     }
 
     public void Init(){
-
+        //FIX: "spawn" character -> need a way to sort them smaller when they spawn
+        //and move them up as customers leave (like theyre in a line)
+        myCustomerAnim.SetTrigger("MoveToFront");
     }
 
     public void CheckOrder(List<string> given){
@@ -81,8 +98,15 @@ public class Customer : MonoBehaviour
 
     }
 
-    private void StartTimer(){
-        waitTimer.StartTimer();
+    public void AddToOrder(Sprite s, string i, float p){ //add an ingredient to this order and update the UI
+        UpdateOrderUI(s);
+        myOrder.Add(i);
+        //Debug.Log(myOrder.Count);
+        myOrderPrice += p;
+    }
+
+    private void UpdateOrderUI(Sprite s){
+        if (orderUiIndex < orderUi.Length) orderUi[orderUiIndex++].sprite = s;
     }
 
     public void EndTimerHandler(){
@@ -98,5 +122,11 @@ public class Customer : MonoBehaviour
                 Destroy(this.gameObject);
             break;
         }
+        waitTimer.StartTimer();
+    }
+
+    private void Leave(){
+        Destroy(myCustomerAnim.gameObject);
+        Destroy(this.gameObject);
     }
 }

@@ -94,14 +94,20 @@ public class Player : MonoBehaviour
     public void AddToCurrentOrder(){ //add held ingredient to the order
         if (heldIngredient!= null && heldIngredient.AtEndState()){
             currentOrder.Add(heldIngredient.name);
-            UpdateOrderUI(heldIngredient.name);
+            UpdateOrderUI(heldIngredient.name); //FIX: delete
             Destroy(heldIngredient.gameObject);
             HandleNoItems();
         }
     }
 
-    private void UpdateOrderUI(string name){
-        tempOrderText.text = tempOrderText.text + "\n" + name;
+    public void ClearOrder(){
+        Debug.Log(currentOrder.Count);
+        currentOrder.Clear();
+        tempOrderText.text = "Order:";//FIX: delete
+    }
+
+    private void UpdateOrderUI(string name){ //FIX: delete
+        tempOrderText.text = tempOrderText.text + "  " + name;
     }
 
     public void HandleBase(){ //pick up or drop the base object if the player is holding 

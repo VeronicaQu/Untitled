@@ -20,7 +20,7 @@ public class SharedArea: MonoBehaviour
     }
 
     public void OnMouseDown(){
-        Debug.Log(this.name);
+        //Debug.Log(this.name);
         
         if(!player.handFree){
             if (freeArea) PlaceObjectOnShared();

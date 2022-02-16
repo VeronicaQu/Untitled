@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     // ==============   variables   ==============
+    [SerializeField] private GameObject customerOrderParent;
+    public Transform orderParent {get{return customerOrderParent.transform;}}
+    
     [SerializeField] private GameObject myTimerPrefab;
     public GameObject timerPrefab{get{return myTimerPrefab;}}
 
@@ -24,6 +28,14 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        //restart();
+        CheckRestart();
 
+    }
+
+    private void CheckRestart(){
+        if (Input.GetKeyDown(KeyCode.R)){
+            SceneManager.LoadSceneAsync("MainScene");
+        }
     }
 }

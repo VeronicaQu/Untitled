@@ -9,9 +9,13 @@ public class Ingredient : MonoBehaviour
 
     [SerializeField] private string myName;
     public new string name {get{return myName;}}
+    [SerializeField] private float myPrice;
+    public float price {get{return myPrice;}}
+
     [SerializeField] private Sprite[] imageStates;
     private int myImageState = 0; //initial state is 0
     public int state{get{return myImageState;}}
+    public Sprite initialSprite {get{return imageStates[0];}}
     private SpriteRenderer mySpriteRenderer;
 
     [SerializeField] private int motionsToStateChange = 1; //needed number of motions to change state
@@ -43,7 +47,7 @@ public class Ingredient : MonoBehaviour
     //pick up item
     private void OnMouseDown(){ //if the player isnt holding anything, pick up this ingredient
         if (!player.handFree) return;
-        Debug.Log(this.gameObject.name);
+        //Debug.Log(this.gameObject.name);
         
         if (myArea != null) myArea.HandlePickUp();
         player.PickUpItem(this.gameObject);
