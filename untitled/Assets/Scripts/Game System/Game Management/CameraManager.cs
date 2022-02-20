@@ -24,9 +24,11 @@ public class CameraManager : MonoBehaviour
     private CameraButton[] buttons;
 
     private Player p;
+    private GameObject health;
 
     // ==============   methods   ==============
     void Start(){
+        health = FindObjectOfType<HealthManager>().gameObject;
         p = FindObjectOfType<Player>();
         cam = FindObjectOfType<Camera>().gameObject;
 
@@ -66,7 +68,7 @@ public class CameraManager : MonoBehaviour
         virtualCams[c].Priority = 10;
         camIndex = n;
 
-        ShowButtons();
+        ShowUI();
 
         //move the customer view to be above the new cam;
         Vector3 newCustomerViewPos = new Vector3 (virtualCams[camIndex].transform.position.x, customerView.transform.position.y, 0);
@@ -76,10 +78,11 @@ public class CameraManager : MonoBehaviour
         Vector3 newOrderViewPos = new Vector3 (virtualCams[camIndex].transform.position.x, orderView.transform.position.y, 0);
         orderView.transform.position = newOrderViewPos;
     }
+
     public void SwapUpDownCam(){
         if (!p.handFree) return; //this would only be the case when the player is on bottom cam
         if (virtualCams[camIndex].Priority == 11){ //swap up to customer cam
-            HideButtons();
+            HideUI();
             virtualUpCams[camIndex].Priority = 11;
             virtualCams[camIndex].Priority = 10;
             ShowUpDownButtons();
@@ -88,10 +91,10 @@ public class CameraManager : MonoBehaviour
             virtualCams[camIndex].Priority = 11;
             virtualUpCams[camIndex].Priority = 10;
             ShowUpDownButtons();
-            ShowButtons();
+            ShowUI();
         }
-
     }
+
     private void ShowUpDownButtons(){
         if (virtualCams[camIndex].Priority == 11){ //show up button
             downButton.gameObject.SetActive(false);
@@ -101,7 +104,6 @@ public class CameraManager : MonoBehaviour
             downButton.gameObject.SetActive(true);
             upButton.gameObject.SetActive(false);
         }
-            
     }
 
     public void HideButtons(){
@@ -132,5 +134,22 @@ public class CameraManager : MonoBehaviour
             break;
         }
         ShowUpDownButtons();
+    }
+
+    private void ShowHealth(){
+        health.SetActive(true);
+    }
+    private void HideHealth(){
+        health.SetActive(false);
+    }
+
+    public void ShowUI(){
+        ShowButtons();
+        ShowHealth();
+    }
+
+    public void HideUI(){
+        HideButtons();
+        HideHealth();
     }
 }

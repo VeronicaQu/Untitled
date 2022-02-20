@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject myGameCanvas;
     [SerializeField] public GameObject gameCanvas{get{return myGameCanvas;}}
 
+    //other vars
+    [SerializeField] private int theMaxIngredients;
+    public int maxIngredients {get{return theMaxIngredients;}}
 
     // ==============   methods   ==============
     
@@ -32,7 +35,6 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        //restart();
         CheckRestart();
 
     }
@@ -41,5 +43,9 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)){
             SceneManager.LoadSceneAsync("MainScene");
         }
+    }
+
+    public void HandlePlayerDeath(){ //check if the player has died (what conditions? if on no hearts?)
+
     }
 }

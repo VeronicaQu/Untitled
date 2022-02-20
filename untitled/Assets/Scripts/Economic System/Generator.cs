@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
-    [SerializeField] private int maxIngredients;
-
     private List <Ingredient> baseIngredientPrefabs;
     public List <Ingredient> baseIngredients {set{baseIngredientPrefabs = value;}}
     private List <Ingredient> ingredientPrefabs;
@@ -36,7 +34,7 @@ public class Generator : MonoBehaviour
         newCustomer.AddToOrder(ingredientPrefabs[b].initialSprite, baseIngredientPrefabs[b].name, baseIngredientPrefabs[b].price);
         //FIX: Then from a map of customer profiles to prefabs of possible customer images
 
-        for (int n = Random.Range(1, maxIngredients); n >= 0; n--){
+        for (int n = Random.Range(1, gm.maxIngredients); n >= 0; n--){
             int i = Random.Range(0, customerPrefabs.Count);
             newCustomer.AddToOrder(ingredientPrefabs[i].initialSprite, ingredientPrefabs[i].name, ingredientPrefabs[i].price);
         }

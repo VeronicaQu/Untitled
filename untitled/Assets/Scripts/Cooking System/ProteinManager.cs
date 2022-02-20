@@ -7,23 +7,27 @@ public class ProteinManager : MonoBehaviour
     // ==============   variables   ==============
     [SerializeField] GameObject[] proteinPrefabs = new GameObject[9]; //max 9 types of protein
 
-    GameManager gm;
-    Player p;
     [SerializeField] Animator anim;
     [SerializeField] AnimationClip animClip;
 
     [SerializeField] private float proteinCountdown = 2;
     public float countdown {get{return proteinCountdown;}}
 
+    GameManager gm;
+    Player p;
+    HealthManager hm;
+
     // ==============   methods   ==============
     public void Start(){
         gm = FindObjectOfType<GameManager>();
+        hm = FindObjectOfType<HealthManager>(true);
         p = GetComponent<Player>();
     }
 
     public void CreateProtein(int n){
         if (proteinPrefabs[n] != null){
             GameObject o = Instantiate(proteinPrefabs[n], gm.ingredientParent);
+            hm.MinusPlayerHearts(1);
             p.PickUpItem(o);
         }
     }
