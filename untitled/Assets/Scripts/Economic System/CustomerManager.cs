@@ -8,6 +8,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private Customer firstCustomer;
     private Customer selectedCustomer;
     private Generator g;
+    private List<Customer> lineup = new List<Customer>();
     
     // ==============   methods   ==============
     void Start()
@@ -26,8 +27,19 @@ public class CustomerManager : MonoBehaviour
 
     public void ServeCustomer(List<string> order){
         if (selectedCustomer == null) {
-            if (firstCustomer !=null) firstCustomer.CheckOrder(order);
+            if (firstCustomer !=null){
+                firstCustomer.CheckOrder(order);
+                if (lineup.Count > 0){
+                    firstCustomer = lineup[0];
+                    lineup.RemoveAt(0);
+                }
+                else firstCustomer = null;
             }
+        }
         else selectedCustomer.CheckOrder(order);
+    }
+
+    public void lineupCustomer(Customer c){ //line up the customer behind the current end one
+        lineup.Add(c);
     }
 }

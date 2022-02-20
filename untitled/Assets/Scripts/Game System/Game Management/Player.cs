@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -23,18 +24,66 @@ public class Player : MonoBehaviour
     [SerializeField] private List <string> currentOrder = new List <string>();
     public List<string> order {get {return currentOrder;}}
 
+    //vars to create protein
+    private float endTime;
+    private bool canCreateProtein;
+    private int wantedProtein;
+
+    private KeyCode[] keyCodes = {
+         KeyCode.Alpha1
+         //FIX: add keycodes as needed
+     };
+
     CameraManager cam;
+    ProteinManager pm;
+
     Vector3 mousePos;
 
     // ==============   functions   ==============
     private void Awake(){
         cam = FindObjectOfType<CameraManager>();
+        pm = GetComponent<ProteinManager>();
     }
     public void Update(){
+        UpdateMouseItem();
+        CheckInput();
+    }
+
+    private void UpdateMouseItem(){
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
 
         if (heldItem !=null) heldItem.transform.position = mousePos;
+    }
+
+    private void CheckInput(){
+        if (Input.GetKeyDown(KeyCode.R)){
+            SceneManager.LoadSceneAsync("MainScene");
+        }
+
+        ValidateCreateProtein();
+    }
+
+    private void ValidateCreateProtein(){
+        for(int n = 0; n < keyCodes.Length; n++){
+            if (Input.GetKeyDown(keyCodes[n]) && !canCreateProtein) {
+                canCreateProtein = true;
+                float startTime = Time.time;
+                endTime = startTime + pm.countdown;
+                Debug.Log(string.Format("start time: %d, end time: %d", startTime, endTime));
+
+                pm.AnimateCreateProtein();
+            }
+            if (Input.GetKeyUp(keyCodes[n]) && canCreateProtein) {
+                canCreateProtein = false;
+                pm.StopAnim();
+            }
+            if (Time.time >= endTime && canCreateProtein) {
+                canCreateProtein = false;
+                pm.CreateProtein(n);
+                pm.StopAnim();
+            }
+        } 
     }
 
     public void PickUpItem(GameObject item){ //pick up an item, and sort it into the correct script type

@@ -6,9 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // ==============   variables   ==============
-    [SerializeField] private GameObject customerOrderParent;
-    public Transform orderParent {get{return customerOrderParent.transform;}}
+    //parents
+    [SerializeField] private GameObject theOrderParent;
+    public Transform orderParent {get{return theOrderParent.transform;}}
+    [SerializeField] private GameObject theIngredientParent;
+    public Transform ingredientParent {get{return theIngredientParent.transform;}}
     
+    //prefabs
     [SerializeField] private GameObject myTimerPrefab;
     public GameObject timerPrefab{get{return myTimerPrefab;}}
 

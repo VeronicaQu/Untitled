@@ -51,10 +51,10 @@ public class DragDropObject : MonoBehaviour
             break;
 
             case Type.Serve:
-                if (player.holdingBase){
+                if (player.holdingBase && player.order.Count > 0){
                     //Debug.Log("serving");
                     cm.ServeCustomer(player.order);
-                    player.ClearOrder();
+                    player.ClearOrder(); 
                 }
             break;
 

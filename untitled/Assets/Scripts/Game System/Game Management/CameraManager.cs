@@ -82,24 +82,24 @@ public class CameraManager : MonoBehaviour
             HideButtons();
             virtualUpCams[camIndex].Priority = 11;
             virtualCams[camIndex].Priority = 10;
-            SwapUpDownButtons();
+            ShowUpDownButtons();
         }
         else{//swap down to game cam
             virtualCams[camIndex].Priority = 11;
             virtualUpCams[camIndex].Priority = 10;
-            SwapUpDownButtons();
+            ShowUpDownButtons();
             ShowButtons();
         }
 
     }
-    private void SwapUpDownButtons(){
-        if (!downButton.gameObject.activeSelf){ //show down button
-            downButton.gameObject.SetActive(true);
-            upButton.gameObject.SetActive(false);
-        }
-        else{ //show up button
+    private void ShowUpDownButtons(){
+        if (virtualCams[camIndex].Priority == 11){ //show up button
             downButton.gameObject.SetActive(false);
             upButton.gameObject.SetActive(true);
+        }
+        else{ //show down button
+            downButton.gameObject.SetActive(true);
+            upButton.gameObject.SetActive(false);
         }
             
     }
@@ -131,5 +131,6 @@ public class CameraManager : MonoBehaviour
             rightButton.gameObject.SetActive(false);
             break;
         }
+        ShowUpDownButtons();
     }
 }
