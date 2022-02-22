@@ -7,30 +7,48 @@ public class GameManager : MonoBehaviour
 {
     // ==============   variables   ==============
     //parents
+    [Header("Parents")]
     [SerializeField] private GameObject theOrderParent;
     public Transform orderParent {get{return theOrderParent.transform;}}
+
     [SerializeField] private GameObject theIngredientParent;
     public Transform ingredientParent {get{return theIngredientParent.transform;}}
     
+    [SerializeField] private GameObject theCustomerView;
+    public Transform customerView {get{return theCustomerView.transform;}}
+    
     //prefabs
-    [SerializeField] private GameObject myTimerPrefab;
-    public GameObject timerPrefab{get{return myTimerPrefab;}}
+    [Header("Prefabs")]
+    [SerializeField] private GameObject theTimerPrefab;
+    public GameObject timerPrefab{get{return theTimerPrefab;}}
 
-    [SerializeField] private GameObject myPopUpMessagePrefab;
-    [SerializeField] public GameObject popUpMessagePrefab{get{return myPopUpMessagePrefab;}}
+    [SerializeField] private GameObject thePopUpMessagePrefab;
+    public GameObject popUpMessagePrefab{get{return thePopUpMessagePrefab;}}
 
-    [SerializeField] private GameObject myGameCanvas;
-    [SerializeField] public GameObject gameCanvas{get{return myGameCanvas;}}
+    [SerializeField] private GameObject theOrderPrefab;
+    public GameObject orderPrefab {get{return theOrderPrefab;}}
+
+    [SerializeField] private GameObject theCustomerSkeleton;
+    public GameObject customerSkeleton {get{return theCustomerSkeleton;}}
+
+    //canvas
+    [Header("Canvas")]
+    [SerializeField] private GameObject theGameCanvas;
+    public GameObject gameCanvas{get{return theGameCanvas;}}
 
     //other vars
+    [Header("Game Variables")]
+    [SerializeField] Location firstLocation;
     [SerializeField] private int theMaxIngredients;
     public int maxIngredients {get{return theMaxIngredients;}}
 
+
     // ==============   methods   ==============
     
-    void Start()
+    void Awake()
     {
-        
+        //set variables before start is called
+        FindObjectOfType<Map>().selectedLocation = firstLocation;
     }
     
     void Update()

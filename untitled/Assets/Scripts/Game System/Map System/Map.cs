@@ -8,6 +8,8 @@ public class Map : MonoBehaviour, IPointerClickHandler
 {
     // ==============   variables   ==============
     private GameManager gm;
+    private EventManager em;
+
     [SerializeField] private GameObject map;
     [SerializeField] private Location currLocation; //debug
     public Location location {get{return currLocation;}}
@@ -24,6 +26,11 @@ public class Map : MonoBehaviour, IPointerClickHandler
     private void Awake(){
         gm = FindObjectOfType<GameManager>();
         econ = FindObjectOfType<Economy>();
+        em = FindObjectOfType<EventManager>();
+    }
+
+    private void Start(){
+        goNextLocation();
     }
 
     //go to the location the player wants
@@ -35,7 +42,13 @@ public class Map : MonoBehaviour, IPointerClickHandler
 
         //update location by unsetting current and setting next
         if (currLocation != null) currLocation.UnsetLocation();
-        if (nextLocation != null) nextLocation.SetLocation();
+        if (nextLocation != null){
+            Debug.Log("setting next location");
+            nextLocation.SetLocation();
+            //let subscribers know location has changed
+            em.ChangeLocation(nextLocation); 
+        }
+
         UpdateMapUI();
         currLocation = nextLocation;
         nextLocation = null;

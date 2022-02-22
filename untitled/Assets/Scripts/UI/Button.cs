@@ -7,7 +7,7 @@ public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // ==============   variables   ==============
     //indication settings
-    [SerializeField] private Vector3 myScale = new Vector3(1f,1f,1f);
+    private Vector3 myScale = new Vector3(1f,1f,1f);
     private Vector3 hoverScale = new Vector3(0.3f,0.3f,0.3f);
 
     // ==============   methods   ==============

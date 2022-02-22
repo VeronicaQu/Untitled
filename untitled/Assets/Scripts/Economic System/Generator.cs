@@ -4,41 +4,88 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
+    // ==============   variables   ==============
     private List <Ingredient> baseIngredientPrefabs;
-    public List <Ingredient> baseIngredients {set{baseIngredientPrefabs = value;}}
     private List <Ingredient> ingredientPrefabs;
-    public List <Ingredient> ingredients {set{ingredientPrefabs = value;}}
+    private List <Ingredient> proteinPrefabs;
     
     private List <Customer> customerPrefabs;
-    public List <Customer> customers {set{customerPrefabs = value;}}
-    private Customer newCustomer;
 
     //timer vars
-    [SerializeField] private float minTimeToCustomer;
-    [SerializeField] private float maxTimeToCustomer;
-    [SerializeField] private float rushPercentIncrease;
     private Timer timer;
+    private int[] customersPerStage;
+    private int customersSpawned;
+    private int maxCustomers;
+    private float timeUntilCustomer;
+    [SerializeField] private float timeBeforeFirst;
+    [SerializeField] private float timeAfterLast;
+    
     GameManager gm;
 
+    // ==============   methods   ==============
+
     void Awake(){
+        EventManager ev = FindObjectOfType<EventManager>();
+        //subscribe to events
+        ev.OnLocationChange += UpdateOnLocationChange;
+        ev.OnTimeChange += UpdateOnTimeChange;
+
         gm = FindObjectOfType<GameManager>();
         timer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
     }
 
-    void CreateCustomer(){ //create a customer with random ingredients
+    private void UpdateOnLocationChange(Location next){
+        Debug.Log("next: " + next.gameObject.name);
+        //update the generator
+        baseIngredientPrefabs = next.baseIngredients;
+        ingredientPrefabs = next.ingredients;
+        customerPrefabs = next.customers;
+        customersPerStage = next.customersPerStage;
+        proteinPrefabs = next.proteins;
+    }
+
+    private void UpdateOnTimeChange(float time, int phase){
+        maxCustomers = customersPerStage[phase];
+        timeUntilCustomer = (time - timeBeforeFirst - timeAfterLast)/maxCustomers;
+        customersSpawned = 0;
+        timer.Init(timeBeforeFirst, BeginTimer);
+        timer.StartTimer();
+    }
+
+    private void CreateCustomer(){ //create a customer with random ingredients
+        if (customersSpawned >= maxCustomers) return;
+        Customer newCustomer;
+
+        //get a new customer
         int c = Random.Range(0, customerPrefabs.Count);
-        int b = Random.Range(0, baseIngredientPrefabs.Count);
-
-        //FIX: This should be the customer profile
         newCustomer = Instantiate(customerPrefabs[c], gm.orderParent).GetComponent<Customer>();
-        newCustomer.AddToOrder(ingredientPrefabs[b].initialSprite, baseIngredientPrefabs[b].name, baseIngredientPrefabs[b].price);
-        //FIX: Then from a map of customer profiles to prefabs of possible customer images
+        customerPrefabs.RemoveAt(c);
 
-        for (int n = Random.Range(1, gm.maxIngredients); n >= 0; n--){
-            int i = Random.Range(0, customerPrefabs.Count);
+        //adjust customer
+        int num = gm.maxIngredients;
+        int b = Random.Range(0, baseIngredientPrefabs.Count);
+        newCustomer.AddToOrder(baseIngredientPrefabs[b].initialSprite, baseIngredientPrefabs[b].name, baseIngredientPrefabs[b].price);
+        num--;
+
+        int p = Random.Range(0, proteinPrefabs.Count);
+        newCustomer.AddToOrder(proteinPrefabs[p].initialSprite, proteinPrefabs[p].name, proteinPrefabs[p].price);
+        num--;
+
+        for (int n = num; n >= 0; n--){
+            int i = Random.Range(0, ingredientPrefabs.Count);
             newCustomer.AddToOrder(ingredientPrefabs[i].initialSprite, ingredientPrefabs[i].name, ingredientPrefabs[i].price);
         }
 
+        //initiate customer
         newCustomer.Init();
+        customersSpawned++;
+    }
+
+    public void BeginTimer(){
+        if (customersSpawned >= maxCustomers) return;
+        CreateCustomer();
+        //start the timer until next player spawn
+        timer.Init(timeUntilCustomer, BeginTimer);
+        timer.StartTimer();
     }
 }

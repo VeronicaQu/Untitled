@@ -5,33 +5,55 @@ using UnityEngine.UI;
 
 public class DayManager : MonoBehaviour
 {
+    // ==============   variables   ==============
+    //time stages
     Timer dayTimer;
-    [SerializeField] float timeTilChange = 10;
+    private float[] timePerStage;
+    [SerializeField] Sprite[] timeStageImages;
+    private int stageIndex;
 
-    Image tempIcon;
+    //FIX: delete
+    [SerializeField] Image tempIcon;
     [SerializeField] Sprite dayIcon;
     [SerializeField] Sprite nightIcon;
 
     [SerializeField] Text timeText;
 
     GameManager gm;
+    EventManager em;
 
-    private void Start(){
+    // ==============   methods   ==============
+    private void Awake(){
+        em = FindObjectOfType<EventManager>();
+        em.OnLocationChange += UpdateOnLocationChange;
         gm = FindObjectOfType<GameManager>();
-        tempIcon = GetComponent<Image>();
 
-        tempIcon.sprite = dayIcon;
-        Init(timeTilChange);
+        dayTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
+    }
+
+    private void UpdateOnLocationChange(Location next){
+        Debug.Log("called Update on Location in Day Manager");
+        dayTimer.StopTimer();
+        //update the generator
+        timePerStage = next.timeStages;
+        ResetVars();
+    }
+
+    private void ResetVars(){
+        stageIndex = 0;
+        if (stageIndex < timePerStage.Length) Init(timePerStage[stageIndex]);
     }
 
     private void HandleDayChange(){
-        if (tempIcon.sprite == dayIcon) tempIcon.sprite = nightIcon;
-        else tempIcon.sprite = dayIcon;
-        Init(timeTilChange);
+        //FIX: change the visuals
+        tempIcon.sprite = nightIcon;
+
+        if (stageIndex < timePerStage.Length) Init(timePerStage[stageIndex]);
     }
 
     private void Init(float time){
-        dayTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
+        em.ChangeTime(time, stageIndex++); //let subscribers know time has changed
+        //dayTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
         dayTimer.Init(time, HandleDayChange, timeText);
         dayTimer.StartTimer();
     }

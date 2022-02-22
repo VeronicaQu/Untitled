@@ -2,27 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+the customer manager object should also hold the generator
+*/
 public class CustomerManager : MonoBehaviour
 {
     // ==============   variables   ==============
     [SerializeField] private Customer firstCustomer;
     private Customer selectedCustomer;
-    private Generator g;
+    //private Generator g;
     private List<Customer> lineup = new List<Customer>();
     
     // ==============   methods   ==============
-    void Start()
+    void Awake()
     {
-        EventManager ev = FindObjectOfType<EventManager>();
-        ev.OnLocationChange += UpdateOnLocationChange;
-        g = FindObjectOfType<Generator>();
-    }
-
-    private void UpdateOnLocationChange(Location current, Location next){
-        //update the generator
-        g.baseIngredients = next.baseIngredients;
-        g.ingredients = next.ingredients;
-        g.customers = next.customers;
     }
 
     public void ServeCustomer(List<string> order){

@@ -10,6 +10,7 @@ public class Timer: MonoBehaviour
     UnityAction endAction;
     IEnumerator myCoroutine;
     Text myText;
+    
 
     public void Init (float newTime, UnityAction newAction){
         endAction = newAction;
@@ -30,6 +31,10 @@ public class Timer: MonoBehaviour
         StartCoroutine(myCoroutine);
     }
 
+    public void StopTimer(){
+        if (myCoroutine != null) StopCoroutine(myCoroutine);
+    }
+
     private IEnumerator DecrementTimer(){ //coroutine for timer
         while (time > 0){
             if (myText !=null) myText.text = ""+time;
@@ -38,6 +43,6 @@ public class Timer: MonoBehaviour
         }
         if (myText !=null) myText.text = "" +time;
         endAction();
-        Destroy(this);
+        //Destroy(this);
     }
 }
