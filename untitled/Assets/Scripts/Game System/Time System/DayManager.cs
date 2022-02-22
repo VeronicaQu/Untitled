@@ -36,10 +36,9 @@ public class DayManager : MonoBehaviour
         dayTimer.StopTimer();
         //update the generator
         timePerStage = next.timeStages;
-        ResetVars();
     }
 
-    private void ResetVars(){
+    public void ResetVars(){
         stageIndex = 0;
         if (stageIndex < timePerStage.Length) Init(timePerStage[stageIndex]);
     }

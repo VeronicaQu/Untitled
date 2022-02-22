@@ -63,7 +63,6 @@ public class Customer : MonoBehaviour
         orderUiIndex = 0;
         GameObject order = Instantiate(gm.orderPrefab, this.transform);
         foreach(Transform child in order.transform){
-            Debug.Log(child.gameObject.name);
             orderUi.Add(child.gameObject.GetComponent<Image>());
         }
         RectTransform r = order.GetComponent<RectTransform>();
@@ -126,7 +125,7 @@ public class Customer : MonoBehaviour
     }
 
     public void AddToOrder(Sprite s, string i, float p){ //add an ingredient to this order and update the UI
-        Debug.Log(string.Format("called add to order on {0}, orderUI Length is {1}", this.gameObject.name, orderUi.Count));
+        //Debug.Log(string.Format("called add to order on {0}, orderUI Length is {1}", this.gameObject.name, orderUi.Count));
         if (orderUiIndex >= orderUi.Count) return;
         UpdateOrderUI(s);
         myOrder.Add(i);

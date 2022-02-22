@@ -21,16 +21,18 @@ public class Generator : MonoBehaviour
     [SerializeField] private float timeAfterLast;
     
     GameManager gm;
+    DayManager dm;
 
     // ==============   methods   ==============
 
     void Awake(){
-        EventManager ev = FindObjectOfType<EventManager>();
+        EventManager ev = FindObjectOfType<EventManager>(true);
         //subscribe to events
         ev.OnLocationChange += UpdateOnLocationChange;
         ev.OnTimeChange += UpdateOnTimeChange;
 
         gm = FindObjectOfType<GameManager>();
+        dm = FindObjectOfType<DayManager>();
         timer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
     }
 
@@ -42,6 +44,8 @@ public class Generator : MonoBehaviour
         customerPrefabs = next.customers;
         customersPerStage = next.customersPerStage;
         proteinPrefabs = next.proteins;
+
+        dm.ResetVars();
     }
 
     private void UpdateOnTimeChange(float time, int phase){
