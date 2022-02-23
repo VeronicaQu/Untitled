@@ -84,7 +84,7 @@ public class Generator : MonoBehaviour
 
         //initiate customer
         cm.LineupCustomer(newCustomer);
-        newCustomer.Init();
+        newCustomer.Init(); //FIX: delete; only the cm needs to lineup customer
         customersSpawned++;
     }
 

@@ -23,7 +23,7 @@ public class Customer : MonoBehaviour
     public Mood mood {get{return myMood;}}
     
     //order vars
-    [SerializeField] private List<string> myOrder = new List<string>();
+    private List<string> myOrder = new List<string>();
     private float myOrderPrice;
     private List<Image> orderUi = new List<Image>();
     private int orderUiIndex;
@@ -113,7 +113,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Customer will pay for something.");
         switch(myMood){
             case Mood.Angry:
-                econ.AddPlayerCoins(myOrderPrice);
+                econ.AddPlayerCoins(myOrderPrice + (myOrderPrice*myTipPercent)/2);
             break;
             case Mood.Neutral:
                 econ.AddPlayerCoins(myOrderPrice + myOrderPrice*myTipPercent);

@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySprites:
-  - {fileID: 21300000, guid: 03ee550b90b5545858cbfc770c815d99, type: 3}
   - {fileID: 21300000, guid: 1083786e5f930498db4a8a3a757b2b00, type: 3}
+  - {fileID: 21300000, guid: 03ee550b90b5545858cbfc770c815d99, type: 3}
   - {fileID: 21300000, guid: a652598776b37417ebdd2723ad2623d0, type: 3}
