@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Location : Button, IPointerClickHandler
+public class Location : Button
 {
     // ==============   variables   ==============
     //location variations
-    private List <Ingredient> baseIngredientPrefabs;
+    [Header("Ingredient Prefab Lists")]
+    [SerializeField] private List <Ingredient> baseIngredientPrefabs;
     public List <Ingredient> baseIngredients {get{return baseIngredientPrefabs;}}
-    [SerializeField] private List <Ingredient> myIngredientPrefabs;
-    public List<Ingredient> ingredients {get{return myIngredientPrefabs;}}
-    private List <Customer> customerPrefabs;
+    [SerializeField] private List <Ingredient> ingredientPrefabs;
+    public List<Ingredient> ingredients {get{return ingredientPrefabs;}}
+    [SerializeField] private List <Ingredient> proteinPrefabs;
+    public List<Ingredient> proteins {get{return proteinPrefabs;}}
+
+    [Header("Customer Settings")]
+    [SerializeField] private List <Customer> customerPrefabs;
     public List <Customer> customers {get{return customerPrefabs;}}
+    [SerializeField] private int[] myCustomersPerStage;
+    public int[] customersPerStage {get{return myCustomersPerStage;}}
+    [SerializeField] float[] timePerStage;
+    public float[] timeStages{get{ return timePerStage;}}
 
     //location settings
+    [Header("Location Settings")]
     [SerializeField] private GameObject myLocation; //holds all child objects related to this location
     private Map map;
     private bool activeLocation;
@@ -31,11 +41,11 @@ public class Location : Button, IPointerClickHandler
         map = FindObjectOfType<Map>();
     }
     public void SetLocation(){
-        myLocation.SetActive(true);
+        if (myLocation !=null) myLocation.SetActive(true);
         activeLocation = true;
     }
     public void UnsetLocation(){
-        myLocation.SetActive(false);
+        if (myLocation !=null) myLocation.SetActive(false);
         activeLocation = false;
     }
 

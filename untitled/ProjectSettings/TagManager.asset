@@ -45,8 +45,20 @@ TagManager:
   - name: Background
     uniqueID: 1571072671
     locked: 0
+  - name: Customer
+    uniqueID: 2464664451
+    locked: 0
   - name: Game Back
     uniqueID: 908346985
+    locked: 0
+  - name: Shared Areas
+    uniqueID: 3881174347
+    locked: 0
+  - name: Tools
+    uniqueID: 3055819865
+    locked: 0
+  - name: Underlay
+    uniqueID: 2815259805
     locked: 0
   - name: Game Front
     uniqueID: 3092957133

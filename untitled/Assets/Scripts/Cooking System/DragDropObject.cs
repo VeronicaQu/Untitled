@@ -9,16 +9,17 @@ public class DragDropObject : MonoBehaviour
     enum Type { //the types of drag + drop
         Base,
         Serve,
+        Consume,
         Cooker
     };
     [SerializeField] private Type myType;
-    
 
     [SerializeField] private Animator myAnimator;
     private Player player;
 
     private CustomerManager cm;
     private GameManager gm;
+    private HealthManager hm;
     
     private Timer myTimer;
 
@@ -36,6 +37,7 @@ public class DragDropObject : MonoBehaviour
         player = FindObjectOfType<Player>();
         cm = FindObjectOfType<CustomerManager>();
         gm = FindObjectOfType<GameManager>();
+        hm = FindObjectOfType<HealthManager>();
     }
 
     public void OnMouseDown(){
@@ -51,9 +53,20 @@ public class DragDropObject : MonoBehaviour
             break;
 
             case Type.Serve:
-                if (player.holdingBase){
+                if (player.holdingBase && player.order.Count > 0){
                     //Debug.Log("serving");
-                    cm.ServeCustomer(player.order);
+                    List<string> order = new List<string>();
+                    foreach(Ingredient i in player.order){
+                        order.Add(i.name);
+                    }
+                    cm.ServeCustomer(order);
+                    player.ClearOrder(); 
+                }
+            break;
+
+            case Type.Consume:
+                if (player.holdingBase && player.order.Count > 0){
+                    hm.CheckConsume(player.order);
                     player.ClearOrder();
                 }
             break;
@@ -79,9 +92,10 @@ public class DragDropObject : MonoBehaviour
     private void StartCooker(){
         GameObject i = player.DropItem("ingredient"); //see if the player is holding an ingredient
         if (i == null) return;
-        myIngredient = i.GetComponent<Ingredient>(); //it's never the case that the ingredient placed here is the wrong kind
+        myIngredient = i.GetComponent<Ingredient>(); 
         
-        if (myIngredient.state > maxState){ //don't cook items that are already cooked
+        //if wrong ingredient
+        if (myIngredient.type != Ingredient.Type.Carb || myIngredient.state > maxState){ //don't cook items that are already cooked
             player.PickUpItem(myIngredient.gameObject);
             return;
         }

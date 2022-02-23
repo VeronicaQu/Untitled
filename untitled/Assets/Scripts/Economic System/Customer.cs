@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+this is really customer profile; it is a *TYPE* of customer, but the sprites can vary
+*/
 public class Customer : MonoBehaviour
 {
     // ==============   variables   ==============
-    [SerializeField] private Animator myCustomerAnim; 
+    //customer appearance vars
+    [Header("Appearance")]
+    [SerializeField] private List<CustomerSprites> myPossibleSprites;
+    private Sprite[] mySprites;
+    private int currSpriteState;
+    private Animator myCustomerAnim; 
+    private SpriteRenderer myCustomer;
+
     //mood vars
     public enum Mood {Angry, Neutral, Happy}
     private Mood myMood = Mood.Happy;
     public Mood mood {get{return myMood;}}
-    [SerializeField] private int myLeniency;
     
     //order vars
-    [SerializeField] private List<Ingredient> tempIng; //FIX: DELETE
-    [SerializeField] private List<string> myOrder = new List<string>();
-    [SerializeField] private float myOrderPrice;
-    [SerializeField] private Image[] orderUi;
+    private List<string> myOrder = new List<string>();
+    private float myOrderPrice;
+    private List<Image> orderUi = new List<Image>();
     private int orderUiIndex;
 
     //timer vars
+    [Header("Wait Times")]
     [SerializeField] private float myHappyWaitTime;
     [SerializeField] private float myNeutralWaitTime;
     [SerializeField] private float myAngryWaitTime;
@@ -28,10 +37,13 @@ public class Customer : MonoBehaviour
     GameManager gm;
 
     //econ vars
+    [Header("Tipping")]
     [SerializeField] private float myTipPercent;
     [SerializeField] private float myGenerousTipPercent;
-    [SerializeField] private Economy econ;
+    [SerializeField] private int myLeniency;
 
+    //references
+    private Economy econ;
 
     // ==============   methods   ==============
     public void Awake(){
@@ -40,20 +52,38 @@ public class Customer : MonoBehaviour
         
         waitTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
         waitTimer.Init(myHappyWaitTime, EndTimerHandler);
-        
-        //FIX: DELETE
-        Init();
-        foreach(Ingredient i in tempIng){
-            AddToOrder(i.initialSprite, i.name, i.price);
-        }
 
+        CreateOrder();
+        CreateAppearance();
         //ensure inactive
         this.gameObject.SetActive(false);
+    }
+
+    public void CreateOrder(){
+        orderUiIndex = 0;
+        GameObject order = Instantiate(gm.orderPrefab, this.transform);
+        foreach(Transform child in order.transform){
+            orderUi.Add(child.gameObject.GetComponent<Image>());
+        }
+        RectTransform r = order.GetComponent<RectTransform>();
+        GetComponent<RectTransform>().sizeDelta = new Vector2 (r.sizeDelta.x, r.sizeDelta.y);
+    }
+
+    public void CreateAppearance(){
+        int a = Random.Range(0, myPossibleSprites.Count);
+        mySprites = myPossibleSprites[a].sprites;
+
+        myCustomer = Instantiate(gm.customerSkeleton, gm.customerView).GetComponent<SpriteRenderer>();
+        myCustomer.gameObject.GetComponent<UIActivate>().obj = this.gameObject;
+        myCustomer.sprite = mySprites[currSpriteState];
+        myCustomerAnim = myCustomer.gameObject.GetComponent<Animator>();
     }
 
     public void Init(){
         //FIX: "spawn" character -> need a way to sort them smaller when they spawn
         //and move them up as customers leave (like theyre in a line)
+
+        //IDEA: spawn along a line in 3D space & move forward until colliding with object in fromt; each step increase size
         myCustomerAnim.SetTrigger("MoveToFront");
     }
 
@@ -83,7 +113,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Customer will pay for something.");
         switch(myMood){
             case Mood.Angry:
-                econ.AddPlayerCoins(myOrderPrice);
+                econ.AddPlayerCoins(myOrderPrice + (myOrderPrice*myTipPercent)/2);
             break;
             case Mood.Neutral:
                 econ.AddPlayerCoins(myOrderPrice + myOrderPrice*myTipPercent);
@@ -92,25 +122,23 @@ public class Customer : MonoBehaviour
                 econ.AddPlayerCoins(myOrderPrice + myOrderPrice*myGenerousTipPercent);
             break;
         }
-    }
-
-    private void UpdateGenerator(){ //customer mood affects how often this kind of customer appears
-
+        Leave();
     }
 
     public void AddToOrder(Sprite s, string i, float p){ //add an ingredient to this order and update the UI
+        //Debug.Log(string.Format("called add to order on {0}, orderUI Length is {1}", this.gameObject.name, orderUi.Count));
+        if (orderUiIndex >= orderUi.Count) return;
         UpdateOrderUI(s);
         myOrder.Add(i);
-        //Debug.Log(myOrder.Count);
         myOrderPrice += p;
     }
 
     private void UpdateOrderUI(Sprite s){
-        if (orderUiIndex < orderUi.Length) orderUi[orderUiIndex++].sprite = s;
+        if (orderUiIndex < orderUi.Count) orderUi[orderUiIndex++].sprite = s;
     }
 
     public void EndTimerHandler(){
-        waitTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
+        //waitTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
         switch(myMood){
             case Mood.Happy:
                 waitTimer.Init(myNeutralWaitTime, EndTimerHandler);
