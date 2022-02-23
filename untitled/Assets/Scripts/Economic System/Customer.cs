@@ -122,6 +122,7 @@ public class Customer : MonoBehaviour
                 econ.AddPlayerCoins(myOrderPrice + myOrderPrice*myGenerousTipPercent);
             break;
         }
+        Leave();
     }
 
     public void AddToOrder(Sprite s, string i, float p){ //add an ingredient to this order and update the UI

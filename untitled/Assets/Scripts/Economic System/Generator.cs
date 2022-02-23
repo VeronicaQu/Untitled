@@ -22,6 +22,7 @@ public class Generator : MonoBehaviour
     
     GameManager gm;
     DayManager dm;
+    CustomerManager cm;
 
     // ==============   methods   ==============
 
@@ -33,6 +34,7 @@ public class Generator : MonoBehaviour
 
         gm = FindObjectOfType<GameManager>();
         dm = FindObjectOfType<DayManager>();
+        cm = FindObjectOfType<CustomerManager>();
         timer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
     }
 
@@ -57,7 +59,7 @@ public class Generator : MonoBehaviour
     }
 
     private void CreateCustomer(){ //create a customer with random ingredients
-        if (customersSpawned >= maxCustomers) return;
+        if (customersSpawned >= maxCustomers)return;
         Customer newCustomer;
 
         //get a new customer
@@ -81,6 +83,7 @@ public class Generator : MonoBehaviour
         }
 
         //initiate customer
+        cm.LineupCustomer(newCustomer);
         newCustomer.Init();
         customersSpawned++;
     }

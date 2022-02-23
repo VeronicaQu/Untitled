@@ -12,6 +12,7 @@ public class CustomerManager : MonoBehaviour
     private Customer selectedCustomer;
     //private Generator g;
     private List<Customer> lineup = new List<Customer>();
+    public bool lineUpIsEmpty{get{return lineup.Count == 0;}}
     
     // ==============   methods   ==============
     void Awake()
@@ -32,7 +33,11 @@ public class CustomerManager : MonoBehaviour
         else selectedCustomer.CheckOrder(order);
     }
 
-    public void lineupCustomer(Customer c){ //line up the customer behind the current end one
+    public void LineupCustomer(Customer c){ //line up the customer behind the current end one
         lineup.Add(c);
+        if (firstCustomer == null){
+            firstCustomer = lineup[0];
+            lineup.RemoveAt(0);
+        }
     }
 }

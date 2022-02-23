@@ -21,12 +21,14 @@ public class DayManager : MonoBehaviour
 
     GameManager gm;
     EventManager em;
+    CustomerManager cm;
 
     // ==============   methods   ==============
     private void Awake(){
         em = FindObjectOfType<EventManager>();
         em.OnLocationChange += UpdateOnLocationChange;
         gm = FindObjectOfType<GameManager>();
+        cm = FindObjectOfType<CustomerManager>();
 
         dayTimer = Instantiate(gm.timerPrefab, this.transform).GetComponent<Timer>();
     }
@@ -48,6 +50,12 @@ public class DayManager : MonoBehaviour
         tempIcon.sprite = nightIcon;
 
         if (stageIndex < timePerStage.Length) Init(timePerStage[stageIndex]);
+        else
+            if (!cm.lineUpIsEmpty) WorkOvertime();
+    }
+
+    private void WorkOvertime(){
+        Debug.Log("working overtime");
     }
 
     private void Init(float time){

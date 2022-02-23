@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
     private void ValidateCreateProtein(){
         for(int n = 0; n < keyCodes.Length; n++){
             if (Input.GetKeyDown(keyCodes[n]) && !canCreateProtein) {
+                if (!isHandFree) return;
                 canCreateProtein = true;
                 float startTime = Time.time;
                 endTime = startTime + pm.countdown;

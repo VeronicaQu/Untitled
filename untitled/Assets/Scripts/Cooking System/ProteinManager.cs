@@ -14,21 +14,21 @@ public class ProteinManager : MonoBehaviour
     public float countdown {get{return proteinCountdown;}}
 
     GameManager gm;
-    Player p;
+    Player player;
     HealthManager hm;
 
     // ==============   methods   ==============
     public void Start(){
         gm = FindObjectOfType<GameManager>();
         hm = FindObjectOfType<HealthManager>(true);
-        p = GetComponent<Player>();
+        player = GetComponent<Player>();
     }
 
     public void CreateProtein(int n){
-        if (proteinPrefabs[n] != null){
+        if (proteinPrefabs[n] != null && (player.handFree)){
             GameObject o = Instantiate(proteinPrefabs[n], gm.ingredientParent);
             hm.MinusPlayerHearts(1);
-            p.PickUpItem(o);
+            player.PickUpItem(o);
         }
     }
 
