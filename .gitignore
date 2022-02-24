@@ -190,3 +190,5 @@ untitled/Library/SourceAssetDB
 untitled/Library/ArtifactDB-lock
 untitled/Library/ArtifactDB
 *.log
+*.dwlt
+untitled/Library/CurrentLayout-default.dwlt
