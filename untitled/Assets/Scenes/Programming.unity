@@ -696,7 +696,7 @@ Transform:
   m_LocalScale: {x: 50, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 743608139}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262775458
 GameObject:
@@ -1822,7 +1822,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 743608139}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &650259116
 BoxCollider2D:
@@ -1863,10 +1863,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 2
-  myAnimator: {fileID: 0}
-  myCookingTime: 0
-  maxState: 0
-  cookerText: {fileID: 0}
 --- !u!212 &650259118
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2211,6 +2207,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1380273595}
   - {fileID: 650259115}
   - {fileID: 221224973}
   - {fileID: 1847243224}
@@ -3080,7 +3077,7 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 743608139}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1020234148
 MonoBehaviour:
@@ -3272,7 +3269,7 @@ Transform:
   - {fileID: 1359032890}
   - {fileID: 1884233106}
   m_Father: {fileID: 743608139}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1070482833
 SpriteRenderer:
@@ -3763,8 +3760,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1356756990}
   - component: {fileID: 1356756991}
-  - component: {fileID: 1356756992}
   - component: {fileID: 1356756993}
+  - component: {fileID: 1356756992}
   m_Layer: 0
   m_Name: Cooker
   m_TagString: Untagged
@@ -3848,14 +3845,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1356756989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deadcc67820804872a4325f0800ecdc7, type: 3}
+  m_Script: {fileID: 11500000, guid: c92e8c781578343778861293ad423d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myType: 3
+  myType: 0
   myAnimator: {fileID: 0}
-  myCookingTime: 5
-  maxState: 0
-  cookerText: {fileID: 262775460}
+  myCookingTime: 10
+  maxState: 1
+  timedCarbText: {fileID: 262775460}
 --- !u!61 &1356756993
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4103,8 +4100,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 2.39, z: 0}
   m_LocalScale: {x: 3.9773, y: 1.43695, z: 1}
   m_Children: []
-  m_Father: {fileID: 1487407489}
-  m_RootOrder: 4
+  m_Father: {fileID: 743608139}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1380273596
 SpriteRenderer:
@@ -4170,10 +4167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 1
-  myAnimator: {fileID: 0}
-  myCookingTime: 0
-  maxState: 0
-  cookerText: {fileID: 0}
 --- !u!61 &1380273598
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4355,7 +4348,6 @@ Transform:
   - {fileID: 1428910935}
   - {fileID: 460146217}
   - {fileID: 2110993570}
-  - {fileID: 1380273595}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4991,7 +4983,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 743608139}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1743029240
 MonoBehaviour:
@@ -5250,7 +5242,7 @@ Transform:
   - {fileID: 1605396618}
   - {fileID: 1602912491}
   m_Father: {fileID: 743608139}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1847243225
 SpriteRenderer:
@@ -5732,7 +5724,7 @@ Transform:
   m_Children:
   - {fileID: 1706363643}
   m_Father: {fileID: 743608139}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2018815291
 SpriteRenderer:
@@ -5970,10 +5962,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 0
-  myAnimator: {fileID: 0}
-  myCookingTime: 0
-  maxState: 0
-  cookerText: {fileID: 0}
 --- !u!61 &2110993573
 BoxCollider2D:
   m_ObjectHideFlags: 0
