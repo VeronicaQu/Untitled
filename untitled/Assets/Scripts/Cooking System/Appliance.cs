@@ -10,18 +10,19 @@ public class Appliance : MonoBehaviour
     };
     [SerializeField] private Type myType;
 
-    [SerializeField] private Animator myAnimator;
     private Timer myTimer;
+    [SerializeField] private Animator myAnimator;
+    [SerializeField] private int maxState;
 
-    //cooker
+    //carb cooker
     [SerializeField] private float myCookingTime;
     private Ingredient myIngredient;
-    [SerializeField] private int maxState;
     [SerializeField] private Text timedCarbText;
 
     private Player player;
     private GameManager gm;
     
+    // ==============   Unity functions   ==============
     private void Awake(){
         player = FindObjectOfType<Player>();
         gm = FindObjectOfType<GameManager>();
@@ -47,14 +48,15 @@ public class Appliance : MonoBehaviour
         //set end state and play animation
     }
 
-    //cooker
+    // ==============   functions   ==============
+    // start the carbohydrates (timed) cooker
     private void StartCarbTimed(){
-        GameObject i = player.DropItem("ingredient"); //see if the player is holding an ingredient
+        //see if the player is holding an ingredient
+        GameObject i = player.DropItem("ingredient");
         if (i == null) return;
         myIngredient = i.GetComponent<Ingredient>(); 
-        
-        //if wrong ingredient
-        if (myIngredient.type != Ingredient.Type.Carb || myIngredient.state > maxState){ //don't cook items that are already cooked
+        //don't cook the wrong ingredient, or ingredients that are already cooked
+        if (myIngredient.type != Ingredient.Type.Carb || myIngredient.state > maxState){
             player.PickUpItem(myIngredient.gameObject);
             return;
         }

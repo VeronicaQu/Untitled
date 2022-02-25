@@ -37,11 +37,11 @@ public class Timer: MonoBehaviour
 
     private IEnumerator DecrementTimer(){ //coroutine for timer
         while (time > 0){
-            if (myText !=null) myText.text = ""+time;
+            if (myText !=null) myText.text = "" + time;
             time -= 1;
             yield return new WaitForSeconds(1);
         }
-        if (myText !=null) myText.text = "" +time;
+        if (myText !=null) myText.text = "" + time;
         endAction();
         //Destroy(this);
     }

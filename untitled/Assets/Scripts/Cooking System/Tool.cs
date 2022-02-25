@@ -5,8 +5,8 @@ using UnityEngine;
 public class Tool : MonoBehaviour
 {
     // ==============   variables   ==============
-    public enum Required {Slice}
-    [SerializeField] private Required myRequired = Required.Slice;
+    public enum Required {None, Slice}
+    [SerializeField] private Required myRequired = Required.None;
 
     [SerializeField] private SharedArea myArea;
     public SharedArea area{get{return myArea;} set{myArea = value;}}
