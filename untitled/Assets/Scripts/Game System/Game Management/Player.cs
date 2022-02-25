@@ -104,7 +104,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    public GameObject DropItem(string type){ //drop the item thats held, if its type matches
+    //drop the item thats held, if its type matches
+    public GameObject DropItem(string type){
         GameObject held = null;
         if (type == "ingredient" && heldIngredient!= null){
             held = heldItem;
@@ -142,14 +143,24 @@ public class Player : MonoBehaviour
         cam.HideButtons();
     }
 
-    public void AddToCurrentOrder(){ //add held ingredient to the order
+    //add held ingredient to the order
+    public void AddToCurrentOrder(){
         if (heldIngredient!= null && heldIngredient.AtEndState()){
-            currentOrder.Add(heldIngredient);
-            UpdateOrderUI(heldIngredient.name); //FIX: delete
-            heldIngredient.gameObject.SetActive(false);
-            HandleNoItems();
-            //Destroy(heldIngredient.gameObject);
+            //check if the type is accepted, if it is then add the ingredient
+            if (CheckCanAddIngredient(heldIngredient.type, currentOrder.Count)){
+                currentOrder.Add(heldIngredient);
+                UpdateOrderUI(heldIngredient.name); //FIX: delete
+                heldIngredient.gameObject.SetActive(false);
+                HandleNoItems();
+            }
         }
+    }
+    private bool CheckCanAddIngredient(Ingredient.Type t, int ingredientsAdded){
+        if((ingredientsAdded == 0 && t == Ingredient.Type.Base) 
+        || (ingredientsAdded == 1 && t == Ingredient.Type.Carb) 
+        || (ingredientsAdded >=2 && (t != Ingredient.Type.Base && t != Ingredient.Type.Carb)))
+            return true;
+        return false;
     }
 
     public void ClearOrder(){

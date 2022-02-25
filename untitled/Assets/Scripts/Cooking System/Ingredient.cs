@@ -14,7 +14,7 @@ public class Ingredient : MonoBehaviour
     //type of ingredient
     public enum Type {Base, Carb, Vegetable, Protein}
     [SerializeField] private Type myType = Ingredient.Type.Vegetable;
-    public Type type {get{return myType;} set{myType = value;}}
+    public Type type {get{return myType;}}
 
     //personalized variables for each kind of non-protein (order checking)
     [SerializeField] private string myName;
@@ -35,7 +35,7 @@ public class Ingredient : MonoBehaviour
     public int motionsLeft {get{return myMotionsLeft;}}
 
     //tool and visual lines
-    [SerializeField] private Tool.Required myRequired = Tool.Required.Slice;
+    [SerializeField] private Tool.Required myRequired = Tool.Required.None;
     public Tool.Required required {get{return myRequired;}}
     private List<ToolLine> myToolLines = new List<ToolLine>();
     private bool hovered;
