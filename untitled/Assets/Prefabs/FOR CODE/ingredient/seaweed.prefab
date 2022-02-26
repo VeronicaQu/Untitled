@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3479131738579656295}
   - component: {fileID: 3479131738579656294}
   - component: {fileID: 3479131738579656288}
-  - component: {fileID: 3479131738579656289}
+  - component: {fileID: 2105689659}
   m_Layer: 0
   m_Name: seaweed
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3479131738579656293}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.06, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914ec03ce776a42dea95c864ca579a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myArea: {fileID: 0}
   myType: 0
   myName: seaweed
   myPrice: 0
@@ -103,29 +104,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e65c879f12cb44d1e8e3871fa8f2a579, type: 3}
   motionsToStateChange: 0
   myRequired: 0
---- !u!61 &3479131738579656289
-BoxCollider2D:
+--- !u!65 &2105689659
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3479131738579656293}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.035037518, y: -0.07007325}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 5}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_IsTrigger: 1
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.8788257, y: 3.878826}
-  m_EdgeRadius: 0
+  m_Size: {x: 3.7401392, y: 3.8308368, z: 0}
+  m_Center: {x: -0.05395758, y: -0.06275743, z: -3.658547e-18}

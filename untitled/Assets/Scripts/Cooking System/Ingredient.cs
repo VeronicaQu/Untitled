@@ -7,7 +7,7 @@ public class Ingredient : MonoBehaviour
     // ==============   variables   ==============
     //references
     private Player player;
-    private SharedArea myArea;
+    [SerializeField] private SharedArea myArea;
     public SharedArea area{set{myArea = value;}}
 
 
@@ -58,7 +58,10 @@ public class Ingredient : MonoBehaviour
         if (!player.handFree) return;
         //Debug.Log(this.gameObject.name);
         
-        if (myArea != null) myArea.HandlePickUp();
+        if (myArea != null){
+            myArea.HandlePickUp();
+            myArea = null;
+        }
         player.PickUpItem(this.gameObject);
         InactivateToolLines();
     }
@@ -112,7 +115,7 @@ public class Ingredient : MonoBehaviour
     }
 
     public bool AtEndState(){ //check if this ingredient has reached its end state
-        if (myImageState == imageStates.Length-1) return true;
+        if (myImageState >= imageStates.Length-1) return true;
         return false;
     }
 

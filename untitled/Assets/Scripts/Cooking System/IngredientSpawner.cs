@@ -9,7 +9,7 @@ public class IngredientSpawner : MonoBehaviour
     private Player player;
 
     private void Awake(){
-        this.transform.SetParent(FindObjectOfType<GameManager>().transform);
+        this.transform.SetParent(FindObjectOfType<GameManager>().ingredientParent);
         player = FindObjectOfType<Player>();
     }
 

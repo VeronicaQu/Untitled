@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.EventSystems;
 
 public class EventManager : MonoBehaviour
 {
     // ==============   variables   ==============
     //location change
-    public delegate void LocationChangeEvent (Location next);
-    public event LocationChangeEvent OnLocationChange;
-
+    public Action<Location> OnLocationChange;
     //day time change
-    public delegate void TimeChangeEvent (float nextTime, int phase);
-    public event TimeChangeEvent OnTimeChange;
+    public Action<float, int> OnTimeChange;
 
     // ==============   methods   ==============
     public void ChangeLocation(Location next){
