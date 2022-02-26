@@ -91,7 +91,11 @@ public class Player : MonoBehaviour
         HandleHasItem();
         
         heldItem = item;
-        heldItem.GetComponent<Collider2D>().enabled = false;
+        //disable collider
+        Collider c = heldItem.GetComponent<Collider>();
+        if (c !=null) c.enabled = true;
+        Collider2D c2 = heldItem.GetComponent<Collider2D>();
+        if (c2 !=null) c2.enabled = true;
         
         if (item.GetComponent<Ingredient>()){
             heldIngredient = item.GetComponent<Ingredient>();
@@ -123,7 +127,13 @@ public class Player : MonoBehaviour
         }
 
         if (heldItem == null) HandleNoItems(); //if no item is being held
-        if (held != null) held.GetComponent<Collider2D>().enabled = true; //enable collider
+        if (held != null) {
+            //enable collider
+            Collider c = held.GetComponent<Collider>();
+            if (c !=null) c.enabled = true;
+            Collider2D c2 = held.GetComponent<Collider2D>();
+            if (c2 !=null) c2.enabled = true;
+        }
         
         return held;
     }

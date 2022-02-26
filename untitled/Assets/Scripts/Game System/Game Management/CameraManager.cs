@@ -35,7 +35,7 @@ public class CameraManager : MonoBehaviour
         buttons = new CameraButton[] {leftButton, rightButton, upButton, downButton};
         camIndex = 1;
         //SwapToCam(camIndex);
-        SwapUpDownCam();
+        if (virtualUpCams.Count >0) SwapUpDownCam();
         
     }
     
@@ -52,10 +52,10 @@ public class CameraManager : MonoBehaviour
             SwapToCam(camIndex+1 < maxCamIndex ? camIndex+1: camIndex);
         }
         else if (Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.UpArrow)){
-            SwapUpDownCam();
+            if (virtualUpCams.Count >0) SwapUpDownCam();
         }
         else if (Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.DownArrow)){
-            SwapUpDownCam();
+            if (virtualUpCams.Count >0) SwapUpDownCam();
         }
     }
 
@@ -108,8 +108,10 @@ public class CameraManager : MonoBehaviour
 
     public void HideButtons(){
         foreach(CameraButton c in buttons){
-            c.gameObject.SetActive(false);
-            c.ResetScale();
+            if (c != null){
+                c.gameObject.SetActive(false);
+                c.ResetScale();
+            }
         }
     }
 
@@ -133,7 +135,7 @@ public class CameraManager : MonoBehaviour
             rightButton.gameObject.SetActive(false);
             break;
         }
-        ShowUpDownButtons();
+        if (upButton !=null) ShowUpDownButtons();
     }
 
     private void ShowHealth(){
