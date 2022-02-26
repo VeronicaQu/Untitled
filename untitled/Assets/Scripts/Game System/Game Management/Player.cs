@@ -38,22 +38,40 @@ public class Player : MonoBehaviour
     ProteinManager pm;
 
     Vector3 mousePos;
+    Plane mousePlane;
+    Vector3 mouseDistanceFromCamera;
+
+     //This is the distance the clickable plane is from the camera. Set it in the Inspector before running.
+    [SerializeField] float mouseDistanceZ = -15f;
 
     // ==============   functions   ==============
     private void Awake(){
         cam = FindObjectOfType<CameraManager>();
         pm = GetComponent<ProteinManager>();
+        mouseDistanceFromCamera = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z - mouseDistanceZ);
+        //Create a new plane with normal (0,0,1) at the position away from the camera you define in the Inspector. This is the plane that you can click so make sure it is reachable.
+        mousePlane = new Plane(Vector3.up, mouseDistanceFromCamera);
     }
     public void Update(){
-        UpdateMouseItem();
+        if (heldItem !=null) UpdateMouseItem();
         CheckInput();
     }
 
     private void UpdateMouseItem(){
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-
-        if (heldItem !=null) heldItem.transform.position = mousePos;
+        // mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // mousePos.z = 0;
+        // if (heldItem !=null) heldItem.transform.position = new Vector3 (mousePos.x, mousePos.y, heldItem.transform.position.z);
+        
+        //Create a ray from the Mouse click position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Initialise the enter variable
+        float enter = 0.0f;
+        Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseDistanceFromCamera, Color.green);
+        //move the object to where the mouse is
+        if (mousePlane.Raycast(ray, out enter)){
+            mousePos = ray.GetPoint(enter);
+            heldItem.transform.position = new Vector3(mousePos.x, heldItem.transform.position.y, mousePos.z);
+        }
     }
 
     private void CheckInput(){
@@ -89,13 +107,12 @@ public class Player : MonoBehaviour
 
     public void PickUpItem(GameObject item){ //pick up an item, and sort it into the correct script type
         HandleHasItem();
-        
         heldItem = item;
         //disable collider
         Collider c = heldItem.GetComponent<Collider>();
-        if (c !=null) c.enabled = true;
+        if (c !=null) c.enabled = false;
         Collider2D c2 = heldItem.GetComponent<Collider2D>();
-        if (c2 !=null) c2.enabled = true;
+        if (c2 !=null) c2.enabled = false;
         
         if (item.GetComponent<Ingredient>()){
             heldIngredient = item.GetComponent<Ingredient>();
@@ -108,10 +125,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    //drop the item thats held, if its type matches
+    //drop the held item, if its type matches what is wanted by caller 
     public GameObject DropItem(string type){
         GameObject held = null;
-        if (type == "ingredient" && heldIngredient!= null){
+        if (type == "ingredient" && heldIngredient!= null && heldIngredient.type!= Ingredient.Type.Base){
             held = heldItem;
             heldIngredient = null;
             heldItem = null;
@@ -121,12 +138,12 @@ public class Player : MonoBehaviour
             heldTool = null;
             heldItem = null;
         }
-        else if (type == "base"){
+        else if (type == "base" && heldIngredient== null && heldTool== null){
             held = heldItem;
             heldItem = null;
         }
-
-        if (heldItem == null) HandleNoItems(); //if no item is being held
+        //if no item is being held, reset some vars; if there an object that will be returned to caller, enable back its collider
+        if (heldItem == null) HandleNoItems();
         if (held != null) {
             //enable collider
             Collider c = held.GetComponent<Collider>();
@@ -134,7 +151,6 @@ public class Player : MonoBehaviour
             Collider2D c2 = held.GetComponent<Collider2D>();
             if (c2 !=null) c2.enabled = true;
         }
-        
         return held;
     }
 

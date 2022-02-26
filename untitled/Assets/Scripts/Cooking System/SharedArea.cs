@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class SharedArea: MonoBehaviour
 {
-    public enum AreaType {None, CuttingBoard, Base}
-    [SerializeField] private bool ingredientsOnly;
+    public enum AreaType {None, CuttingBoard, Base, IngredientOnly}
     [SerializeField] AreaType myType = AreaType.None;
     public AreaType type {get {return myType;}}
 
@@ -20,13 +19,10 @@ public class SharedArea: MonoBehaviour
     }
 
     public void OnMouseDown(){
-        //Debug.Log(this.name);
-        
-        if(!player.handFree){
+        Debug.Log(this.name);
+
+        if(player!=null && !player.handFree){
             if (freeArea) PlaceObjectOnShared();
-        }
-        else if(!freeArea){
-            HandlePickUp();
         }
     }
 
@@ -40,7 +36,7 @@ public class SharedArea: MonoBehaviour
 
     //shared board
     private void PlaceObjectOnShared(){
-        if (ingredientsOnly){
+        if (myType == AreaType.IngredientOnly|| myType == AreaType.CuttingBoard){
             myItem = player.DropItem("ingredient");
             if (myItem == null) return;
             
@@ -62,7 +58,7 @@ public class SharedArea: MonoBehaviour
             t.area = this;
         }
         freeArea = false;
-        myItem.transform.position = this.transform.position - new Vector3(0,0,1);
+        myItem.transform.position = this.transform.position + new Vector3(0,0.1f,0);
     }
 
     public void HandlePickUp(){
