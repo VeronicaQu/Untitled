@@ -41,7 +41,7 @@ public class CameraManager : MonoBehaviour
     
     void Update()
     {
-        if (p.handFree) CheckMoveInput();
+        CheckMoveInput();
     }
 
     private void CheckMoveInput(){
@@ -60,7 +60,7 @@ public class CameraManager : MonoBehaviour
     }
 
     public void SwapToCam(int n){ //current, new
-        if (!p.handFree || camIndex == n || virtualCams[camIndex].Priority == 10) return;
+        if (camIndex == n || virtualCams[camIndex].Priority == 10) return;
 
         //swap the camera
         int c = camIndex;
@@ -80,7 +80,6 @@ public class CameraManager : MonoBehaviour
     }
 
     public void SwapUpDownCam(){
-        if (!p.handFree) return; //this would only be the case when the player is on bottom cam
         if (virtualCams[camIndex].Priority == 11){ //swap up to customer cam
             HideUI();
             virtualUpCams[camIndex].Priority = 11;
@@ -106,7 +105,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void HideButtons(){
+    private void HideButtons(){
         foreach(CameraButton c in buttons){
             if (c != null){
                 c.gameObject.SetActive(false);
@@ -115,7 +114,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void ShowButtons(){
+    private void ShowButtons(){
         switch (camIndex){
             case 0: //left -> don't show left arrow
             leftButton.ResetScale();

@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // ==============   variables   ==============
+    [SerializeField] bool gameIn3d;
+    public bool in3d {get{return gameIn3d;}}
     //parents
     [Header("Parents")]
     [SerializeField] private GameObject theOrderParent;
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Location firstLocation;
     [SerializeField] private int theMaxIngredients;
     public int maxIngredients {get{return theMaxIngredients;}}
-
+    
 
     // ==============   methods   ==============
     

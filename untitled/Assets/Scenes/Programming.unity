@@ -834,8 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
-  myType: 0
+  myType: 3
 --- !u!212 &270575962
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1048,8 +1047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
-  myType: 0
+  myType: 3
 --- !u!212 &383027351
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2039,6 +2037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7778c0e05c55b43cda0f485eea21bcc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameIn3d: 0
   theOrderParent: {fileID: 80503157}
   theIngredientParent: {fileID: 1082893636}
   theCustomerView: {fileID: 549902777}
@@ -2605,7 +2604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
   myType: 1
 --- !u!212 &868689659
 SpriteRenderer:
@@ -3091,7 +3089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 0
   myType: 2
 --- !u!61 &1020234149
 BoxCollider2D:
@@ -3426,7 +3423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
   myType: 1
 --- !u!212 &1093226052
 SpriteRenderer:
@@ -3529,6 +3525,7 @@ MonoBehaviour:
   heldIngredient: {fileID: 0}
   heldItem: {fileID: 0}
   currentOrder: []
+  mouseDistanceZ: -15
 --- !u!114 &1226324453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3778,7 +3775,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356756989}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.53, y: 0, z: 0}
+  m_LocalPosition: {x: 14.53, y: -3.69, z: 0}
   m_LocalScale: {x: 5.668765, y: 4.205959, z: 1}
   m_Children:
   - {fileID: 652202246}
@@ -3867,7 +3864,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.85499895}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -3878,7 +3875,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.9543998}
   m_EdgeRadius: 0
 --- !u!1 &1359032889
 GameObject:
@@ -3951,8 +3948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
-  myType: 0
+  myType: 3
 --- !u!212 &1359032893
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4471,8 +4467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
-  myType: 0
+  myType: 3
 --- !u!212 &1602912494
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4595,8 +4590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
-  myType: 0
+  myType: 3
 --- !u!212 &1605396621
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4758,7 +4752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 0
   myType: 0
 --- !u!61 &1706363645
 BoxCollider2D:
@@ -5588,8 +5581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452dc5c11a66c4308be602ae5ae3606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientsOnly: 1
-  myType: 0
+  myType: 3
 --- !u!212 &1884233109
 SpriteRenderer:
   m_ObjectHideFlags: 0

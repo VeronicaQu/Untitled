@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 
     CameraManager cam;
     ProteinManager pm;
+    GameManager gm;
 
     Vector3 mousePos;
     Plane mousePlane;
@@ -48,6 +49,8 @@ public class Player : MonoBehaviour
     private void Awake(){
         cam = FindObjectOfType<CameraManager>();
         pm = GetComponent<ProteinManager>();
+        gm = FindObjectOfType<GameManager>();
+
         mouseDistanceFromCamera = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z - mouseDistanceZ);
         //Create a new plane with normal (0,0,1) at the position away from the camera you define in the Inspector. This is the plane that you can click so make sure it is reachable.
         mousePlane = new Plane(Vector3.up, mouseDistanceFromCamera);
@@ -58,19 +61,22 @@ public class Player : MonoBehaviour
     }
 
     private void UpdateMouseItem(){
-        // mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // mousePos.z = 0;
-        // if (heldItem !=null) heldItem.transform.position = new Vector3 (mousePos.x, mousePos.y, heldItem.transform.position.z);
-        
-        //Create a ray from the Mouse click position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //Initialise the enter variable
-        float enter = 0.0f;
-        Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseDistanceFromCamera, Color.green);
-        //move the object to where the mouse is
-        if (mousePlane.Raycast(ray, out enter)){
-            mousePos = ray.GetPoint(enter);
-            heldItem.transform.position = new Vector3(mousePos.x, heldItem.transform.position.y, mousePos.z);
+        if (!gm.in3d) {
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            if (heldItem !=null) heldItem.transform.position = Vector3.MoveTowards(heldItem.transform.position, new Vector3(mousePos.x, mousePos.y, heldItem.transform.position.z), 40 * Time.deltaTime);
+        }
+        else{
+            //Create a ray from the Mouse click position
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Initialise the enter variable
+            float enter = 0.0f;
+            Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseDistanceFromCamera, Color.green);
+            //move the object to where the mouse is
+            if (mousePlane.Raycast(ray, out enter)){
+                mousePos = ray.GetPoint(enter);
+                heldItem.transform.position = new Vector3(mousePos.x, heldItem.transform.position.y, mousePos.z);
+            }
         }
     }
 
@@ -161,12 +167,12 @@ public class Player : MonoBehaviour
         isHoldingBase = false;
         
         isHandFree = true;
-        cam.ShowButtons();
+        //cam.ShowButtons();
     }
 
     private void HandleHasItem(){
         isHandFree = false;
-        cam.HideButtons();
+        //cam.HideButtons();
     }
 
     //add held ingredient to the order

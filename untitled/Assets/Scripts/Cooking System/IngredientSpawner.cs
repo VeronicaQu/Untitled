@@ -16,6 +16,7 @@ public class IngredientSpawner : MonoBehaviour
     private void OnMouseDown(){
         if (!player.handFree) return;
         GameObject newIngredient = Instantiate(myIngredientPrefab, this.transform);
+        newIngredient.transform.position = transform.position;
         player.PickUpItem(newIngredient);
     }
 }

@@ -12,10 +12,12 @@ public class SharedArea: MonoBehaviour
 
     private bool freeArea = true;
     private Player player;
+    private GameManager gm;
 
     // ==============   functions   ==============
     private void Awake(){
         player = FindObjectOfType<Player>();
+        gm = FindObjectOfType<GameManager>();
     }
 
     public void OnMouseDown(){
@@ -58,7 +60,7 @@ public class SharedArea: MonoBehaviour
             t.area = this;
         }
         freeArea = false;
-        myItem.transform.position = this.transform.position + new Vector3(0,0.1f,0);
+        myItem.transform.position = this.transform.position + (gm.in3d? new Vector3(0,0.1f,0): new Vector3(0,0,-1));
     }
 
     public void HandlePickUp(){
